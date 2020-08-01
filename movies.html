@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FindIt</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+  <nav>
+    <div class="nav-wrapper ">
+      <a href="index.html" class="brand-logo">Find It</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="books.html" class="btn-floating pulse"><i class="material-icons">chrome_reader_mode</i></a></li>
+        <li><a href="movies.html" class="btn-floating pulse"><i class="material-icons">movie</i></a></li>
+        <li><a href="music.html" class="btn-floating pulse"><i class="material-icons">music_note</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <br><br>
+        <h1 class="header center teal-text text-lighten-2"></h1>
+        <div class="row center">
+          <h1 class="header center teal-text text-lighten-2">Movies</h1>
+          <h5 class="header col s12 light"></h5>
+        </div>
+
+      </div>
+    </div>
+    <div class="parallax"><img src="background2.jpg" alt="Unsplashed background img 1"></div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <input type="text" id="titleQuery">
+          <button id="buttonTitle">Title Search</button></h1>
+        <div class="row center">
+          <h5 id="test"></h5>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div class="section no-pad-bot">
+      <div class="container">
+        <h1 class="header center teal-text text-lighten-2">Movies</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">Enter this dimensional page and tap into movie descriptions, movie release dates, actors/actress and more</h5>
+        </div>
+      </div>
+    </div> -->
+    <div class="parallax"><img src="background6.jpg" alt="Unsplashed background img 2"></div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <h1 class="header center teal-text text-lighten-2"></h1>
+        <div class="row center">
+          <h5 class="header col s12 light"></h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="background2.jpg" alt="Unsplashed background img 3"></div>
+    <div id="movie-view"></div>
+  </div>
+  <footer>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
+  <script>
+    $("#titleQuery").css("color", "white");
+
+  $("#buttonTitle").click(function(){
+      var movieQuery = $( "#titleQuery" ).val();
+      var queryURL = `https://cors-anywhere.herokuapp.com/https://www.omdbapi.com/?t=" + ${movieQuery} + "&apikey=trilogy`;
+
+      
+
+      console.log(queryURL);
+      
+      $.ajax({
+          crossDomain: true,
+          headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+          },
+          url: queryURL,
+          method: "GET"
+        }).then(function(response) {
+          console.log(response);
+          
+
+          $("#movie-view").empty();
+
+
+          var movieDiv = $("<div class='movie'>");
+          
+          var rating = response.Rated;
+          var pOne = $("<p>").text("Rating: " + rating);
+          movieDiv.append(pOne);
+          
+          var released = response.Released;
+          var pTwo = $("<p>").text("Released: " + released);
+          movieDiv.append(pTwo);
+
+          var plot = response.Plot;
+          var pThree = $("<p>").text("Plot: " + plot);
+          movieDiv.append(pThree);
+
+          var imgURL = response.Poster;
+          var image = $("<img>").attr("src", imgURL);
+
+          movieDiv.append(image);
+
+          $("#movie-view").append(movieDiv);
+  
+  });
+
+
+});
+
+
+
+
+  </script>
+
+</body>
+
+</html>
